@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
 import './react-chart.css'
+import { data } from './React-chart';
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
@@ -77,6 +78,12 @@ class ReachChart2 extends React.Component {
             })
     }
 
+    generateRandomColor(){
+        const ret = Math.random().toString(16).substr(-6);
+        console.log(ret);
+        return "#" + ret.toString();
+    }
+
     getData(year){
         console.log("render called");
         const options = {
@@ -88,16 +95,27 @@ class ReachChart2 extends React.Component {
         };
 
         console.log("current state: " + JSON.stringify(this.state.perCountryData));
-        let dataData = [];
+        let datasets = [];
         try {
             let oneYear = this.state.perCountryData[year];
             console.log("oneYear" + JSON.stringify(oneYear));
 
             for (let i = 0; i < oneYear.length; i++) {
-                let point = {};
-                point['x'] = oneYear[i].unemployment;
-                point['y'] = oneYear[i].gdp;
-                dataData.push(point);
+
+                let point = {
+                    x: oneYear[i].unemployment,
+                    y: oneYear[i].gdp,
+                }
+                let point1 = {
+                    x: 0, 
+                    y: 0,
+                }
+                let obj = {
+                    label: oneYear[i].name,
+                    backgroundColor: this.generateRandomColor(),
+                    data: [point, point1]
+                };
+                datasets.push(obj);
             }
         } catch (e) {
             console.log(e);
@@ -106,13 +124,7 @@ class ReachChart2 extends React.Component {
 
 
         const data = {
-            datasets: [
-                {
-                    label: 'A dataset',
-                    data: dataData,
-                    backgroundColor: 'rgba(0,0,0, 1)',
-                },
-            ],
+            datasets: datasets,
         };
 
         console.log("data from dataset: " + JSON.stringify(data));
