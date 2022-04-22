@@ -1,0 +1,11 @@
+.Main-chart {
+    aspect-ratio: 4/3;
+    max-height: 70vh;
+    min-height: 50vh;
+    max-width: 70vh;
+    min-width: 50vh;
+    display: flex;
+    flex-direction: row;
+    align-items: top;
+}
+

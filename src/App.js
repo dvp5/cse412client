@@ -1,13 +1,25 @@
 import './App.css';
+import logo from './clipart.png';
+
 // import { ReactChart } from './React-chart';
 import ReachChart2 from './React-chart-2';
 
+
 function App() {
-  return (
-
-    <ReachChart2 />
-
-  );
+    return (
+        <div className="App">
+            <header className="App-header">
+                <img src={logo} className="App-logo" alt="logo" />
+                <p>
+                    CSE 412 Group 16
+                </p>
+            </header>
+            <div className='App-body'>
+                <ReachChart2/>
+            </div>
+        </div>
+    );
 }
+
 
 export default App;

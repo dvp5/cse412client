@@ -9,6 +9,7 @@ import {
     Legend,
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
+import './react-chart.css'
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
@@ -73,7 +74,7 @@ class ReachChart2 extends React.Component {
         console.log("data from dataset: " + JSON.stringify(data.datasets[0].data[0]));
         return (
 
-            <Scatter options={options} data={data} />
+            <Scatter className='Main-chart' options={options} data={data} />
 
         );
     }
