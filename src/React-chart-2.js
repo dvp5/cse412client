@@ -14,17 +14,51 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
     state = {
-        data: []
+        
+        perCountryData: {},
+       
     }
 
     componentDidMount() {
-        axios.get(`http://localhost:3001/something`)
+        axios.get(`http://localhost:3001/gdp-unemployment`)
             .then(res => {
                 const resData = res.data;
                 console.log("response data" + JSON.stringify(resData));
-                console.log("response data one piece: " + resData[0].gdp);
+                let preComputation = {
+                    2000: [],
+                    2001: [],
+                    2002: [],
+                    2003: [],
+                    2004: [],
+                    2005: [],
+                    2006: [],
+                    2007: [],
+                    2008: [],
+                    2009: [],
+                    2010: [],
+                    2011: [],
+                    2012: [],
+                    2013: [],
+                    2014: [],
+                    2015: [],
+                    2016: [],
+                    2017: [],
+                    2018: [],
+                    2019: [],
 
-                this.setState({ data: resData });
+                }
+
+                for (let i = 0; i < resData.length; i++) {
+                    let year = resData[i].yearkey;
+                    let countryData = {};
+                    countryData['name'] = resData[i].nationname;
+                    countryData['gdp'] = resData[i].gdp;
+                    countryData['unemployment'] = resData[i].unemployment;
+                    preComputation[year].push(countryData);
+
+                }
+                console.log("post compute" + JSON.stringify(preComputation));
+                this.setState({ perCountryData: preComputation });
             })
     }
 
@@ -37,44 +71,44 @@ class ReachChart2 extends React.Component {
                 },
             },
         };
-        console.log("current state full: " + JSON.stringify(this.state));
-        console.log("current state data: " + JSON.stringify(this.state.data));
-        console.log("current state data[0]: " + JSON.stringify(this.state.data[0]));
-        // console.log("current state data[0] gdp: " + JSON.stringify(this.state.data[0].gdp));
-        let gdp = []
-        try {
 
-            console.log("current state data[0] gdp: " + JSON.stringify(this.state.data[0].gdp));
-            for (let i = 0; i < 10; i++) {
-                gdp[i] = this.state.data[i].gdp;
+        console.log("current state: " + JSON.stringify(this.state.perCountryData));
+        let dataData = [];
+        try {
+            let oneYear = this.state.perCountryData[2000];
+            console.log("oneYear" + JSON.stringify(oneYear));
+
+            for (let i = 0; i < oneYear.length; i++) {
+                let point = {};
+                point['x'] = oneYear[i].unemployment;
+                point['y'] = oneYear[i].gdp;
+
+                dataData.push(point);
             }
         } catch (e) {
             console.log(e);
         }
-        let array = []
 
-        for (let i = 0; i < 10; i++) {
-            array[i] = {
-                x: i,
-                y: gdp[i],
-                // y: Math.random(),
 
-            }
-        }
+
         const data = {
             datasets: [
                 {
                     label: 'A dataset',
-                    data: array,
+                    data: dataData,
                     backgroundColor: 'rgba(0,0,0, 1)',
                 },
             ],
         };
 
-        console.log("data from dataset: " + JSON.stringify(data.datasets[0].data[0]));
-        return (
+        console.log("data from dataset: " + JSON.stringify(data));
+       
 
-            <Scatter className='Main-chart' options={options} data={data} />
+        return (
+            <>
+                <Scatter className='Main-chart' options={options} data={data} />
+            </>
+
 
         );
     }
