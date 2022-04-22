@@ -14,7 +14,22 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
     state = {
-        
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                },
+            },
+        },
+        data: {
+            datasets: [
+                {
+                    label: 'A dataset',
+                    data: [{x:0.5, y:0.5}, {x: 0, y:1}],
+                    backgroundColor: 'rgba(0,0,0, 1)',
+                },
+            ],
+        },
         perCountryData: {},
        
     }
@@ -62,7 +77,7 @@ class ReachChart2 extends React.Component {
             })
     }
 
-    render() {
+    getData(year){
         console.log("render called");
         const options = {
             scales: {
@@ -75,14 +90,13 @@ class ReachChart2 extends React.Component {
         console.log("current state: " + JSON.stringify(this.state.perCountryData));
         let dataData = [];
         try {
-            let oneYear = this.state.perCountryData[2000];
+            let oneYear = this.state.perCountryData[year];
             console.log("oneYear" + JSON.stringify(oneYear));
 
             for (let i = 0; i < oneYear.length; i++) {
                 let point = {};
                 point['x'] = oneYear[i].unemployment;
                 point['y'] = oneYear[i].gdp;
-
                 dataData.push(point);
             }
         } catch (e) {
@@ -102,12 +116,34 @@ class ReachChart2 extends React.Component {
         };
 
         console.log("data from dataset: " + JSON.stringify(data));
-       
+        this.setState({
+            data: data,
+            options: options
+        })
 
+    }
+
+    renderButton(year){
+        return (
+            <button key={year} onClick={() => this.getData(year)}>{year}</button>
+        )
+    }
+
+    render() {
+        let years = [];
+        for(let i = 0;i<19;i++){
+            years[i] = i + 2000;
+        }
+        const listButtons = years.map((year) => this.renderButton(year));
+        
+
+        
         return (
             <>
-                <Scatter className='Main-chart' options={options} data={data} />
+                <Scatter className='Main-chart' options={this.state.options} data={this.state.data} />
+                <ul>{listButtons}</ul>
             </>
+
 
 
         );
