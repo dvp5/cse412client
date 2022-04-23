@@ -8,3 +8,10 @@
     border: none;
     padding: 10px;
 }
+
+
+p {
+    font-size: 12;
+    font-weight: bold;
+    color: black;
+}

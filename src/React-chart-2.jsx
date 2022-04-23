@@ -178,7 +178,7 @@ class ReachChart2 extends React.Component {
             <>
                 <Scatter className='Main-chart' options={this.state.options} data={this.state.data} />
                 <ul>{listButtons}</ul>
-                <button onClick={() => {
+                <button className='button0' onClick={() => {
                     let i = 2000;
                     setInterval(()=> {
                         if (i > 2018) return;
