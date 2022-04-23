@@ -10,33 +10,39 @@ import {
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
 import './react-chart.css'
-import { data } from './React-chart';
+
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
-    state = {
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
+
+    constructor(props){
+        super(props)
+        this.state = {
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                    },
                 },
             },
-        },
-        data: {
-            datasets: [
-                {
-                    label: 'A dataset',
-                    data: [{x:0.5, y:0.5}, {x: 0, y:1}],
-                    backgroundColor: 'rgba(0,0,0, 1)',
-                },
-            ],
-        },
-        perCountryData: {},
-       
+            data: {
+                datasets: [
+                    {
+                        label: 'A dataset',
+                        data: [{x:0.5, y:0.5}, {x: 0, y:1}],
+                        backgroundColor: 'rgba(0,0,0, 1)',
+                    },
+                ],
+            },
+            perCountryData: {},
+           
+        }
     }
+    
 
     componentDidMount() {
-        axios.get(`http://localhost:3001/gdp-unemployment`)
+        
+        axios.get(`http://localhost:3001/custom/${this.props.table1}/${this.props.table2}/${this.props.attribute1}/${this.props.attribute2}`)
             .then(res => {
                 const resData = res.data;
                 console.log("response data" + JSON.stringify(resData));
@@ -68,8 +74,8 @@ class ReachChart2 extends React.Component {
                     let year = resData[i].yearkey;
                     let countryData = {};
                     countryData['name'] = resData[i].nationname;
-                    countryData['gdp'] = resData[i].gdp;
-                    countryData['unemployment'] = resData[i].unemployment;
+                    countryData[this.props.attribute1] = resData[i][Object.keys(resData[i])[3]];
+                    countryData[this.props.attribute2] = resData[i][Object.keys(resData[i])[4]];
                     preComputation[year].push(countryData);
 
                 }
@@ -96,6 +102,7 @@ class ReachChart2 extends React.Component {
 
         console.log("current state: " + JSON.stringify(this.state.perCountryData));
         let datasets = [];
+        console.log(" PROPS" + typeof(this.props.attribute1) + " " + typeof(this.props.attribute2));
         try {
             let oneYear = this.state.perCountryData[year];
             console.log("oneYear" + JSON.stringify(oneYear));
@@ -103,8 +110,8 @@ class ReachChart2 extends React.Component {
             for (let i = 0; i < oneYear.length; i++) {
 
                 let point = {
-                    x: oneYear[i].unemployment,
-                    y: oneYear[i].gdp,
+                    x: oneYear[i][this.props.attribute1],
+                    y: oneYear[i][this.props.attribute2],
                 }
                 let point1 = {
                     x: 0, 

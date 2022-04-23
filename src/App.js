@@ -15,7 +15,7 @@ function App() {
                 </p>
             </header>
             <div className='App-body'>
-                <ReachChart2/>
+                <ReachChart2 table1={"netcon"} table2={"finances"} attribute1={"internet_users"} attribute2={"gdp"}></ReachChart2>
             </div>
         </div>
     );
