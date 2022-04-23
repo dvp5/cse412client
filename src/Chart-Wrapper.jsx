@@ -1,7 +1,7 @@
 import React from 'react';
 import ReachChart2 from "./React-chart-2";
 import table from "./tableMap.json";
-
+import "./styles.css";
 class ChartWrapper extends React.Component {
 
     state = {
@@ -46,16 +46,16 @@ class ChartWrapper extends React.Component {
         }
         console.log(options);
         const listButtons = options.map((option) => this.renderButton(option));
-        const listButtons1 = options.map((option) => this.renderButton(option));
+        const listButtons1 = options.map((option) => this.renderButton1(option));
         console.log("state" + JSON.stringify(this.state));
         return (
             <>
-                <ReachChart2 table1={this.state.table1} table2={this.state.table2} attribute1={this.state.attr1} attribute2={this.state.attr2}></ReachChart2>
-                <p>{this.state.table1} {this.state.attr1}</p>
-                <ul>{listButtons}</ul>
-                <p>{this.state.table2} {this.state.attr2}</p>
-                <ul>{listButtons1}</ul>
                 
+                <ReachChart2 table1={this.state.table1} table2={this.state.table2} attribute1={this.state.attr1} attribute2={this.state.attr2}></ReachChart2>
+                <p>{this.state.table1} | {this.state.attr1}</p>
+                <ul>{listButtons}</ul>
+                <p>{this.state.table2} | {this.state.attr2}</p>
+                <ul>{listButtons1}</ul>
             </>);
     };
 
