@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
 import './react-chart.css'
+import './chartwrapper.css'
 
 ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
@@ -154,7 +155,7 @@ class ReachChart2 extends React.Component {
 
     renderButton(year) {
         return (
-            <button key={year} onClick={() => this.getData(year)}>{year}</button>
+            <button className='button0' key={year} onClick={() => this.getData(year)}>{year}</button>
         )
     }
 

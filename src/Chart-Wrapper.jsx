@@ -1,6 +1,7 @@
 import React from 'react';
 import ReachChart2 from "./React-chart-2";
 import table from "./tableMap.json";
+import './chartwrapper.css'
 
 class ChartWrapper extends React.Component {
 
@@ -14,7 +15,7 @@ class ChartWrapper extends React.Component {
 
     renderButton(attribute) {
         return (
-            <button key={attribute} onClick={() => {
+            <button className='button0' key={attribute} onClick={() => {
                 if(table[attribute]===table[this.state.attr2])return;
                 console.log("changing 1");
                 this.setState({ attr1: attribute, table1: table[attribute] })
@@ -26,7 +27,7 @@ class ChartWrapper extends React.Component {
 
     renderButton1(attribute) {
         return (
-            <button key={attribute} onClick={() => {
+            <button className='button0' key={attribute} onClick={() => {
                 
                 if(table[attribute]===table[this.state.attr1])return;
                 console.log("changing 2");
