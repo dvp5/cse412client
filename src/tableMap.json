@@ -1,0 +1,16 @@
+{
+    "gdp": "finances",
+    "unemployment": "finances",
+    "gini_coefficient": "finances",
+    "internet_users": "NetCon",
+    "cell_users": "NetCon",
+    "child_deaths": "QoL",
+    "sanitation_usage": "QoL",
+    "yearly_CO2": "Sustainability",
+    "forest_coverage": "Sustainability",
+    "nuclear_electricity": "Energy",
+    "gas_prices": "Energy",
+    "population": "Poplation",
+    "child_population": "Population"
+
+}

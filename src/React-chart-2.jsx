@@ -15,7 +15,7 @@ ChartJS.register(LinearScale, PointElement, LineElement, Tooltip, Legend);
 
 class ReachChart2 extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             options: {
@@ -29,19 +29,16 @@ class ReachChart2 extends React.Component {
                 datasets: [
                     {
                         label: 'A dataset',
-                        data: [{x:0.5, y:0.5}, {x: 0, y:1}],
+                        data: [{ x: 0.5, y: 0.5 }, { x: 0, y: 1 }],
                         backgroundColor: 'rgba(0,0,0, 1)',
                     },
                 ],
             },
             perCountryData: {},
-           
+
         }
     }
-    
-
-    componentDidMount() {
-        
+    loadData() {
         axios.get(`http://localhost:3001/custom/${this.props.table1}/${this.props.table2}/${this.props.attribute1}/${this.props.attribute2}`)
             .then(res => {
                 const resData = res.data;
@@ -84,13 +81,26 @@ class ReachChart2 extends React.Component {
             })
     }
 
-    generateRandomColor(){
+
+    componentDidMount() {
+        this.loadData();
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.table1 !== prevProps.table1) {
+            console.log("updated");
+            this.loadData();
+        }
+        
+    }
+
+    generateRandomColor() {
         const ret = Math.random().toString(16).substr(-6);
         console.log(ret);
         return "#" + ret.toString();
     }
 
-    getData(year){
+    getData(year) {
         console.log("render called");
         const options = {
             scales: {
@@ -102,7 +112,7 @@ class ReachChart2 extends React.Component {
 
         console.log("current state: " + JSON.stringify(this.state.perCountryData));
         let datasets = [];
-        console.log(" PROPS" + typeof(this.props.attribute1) + " " + typeof(this.props.attribute2));
+        console.log(" PROPS" + typeof (this.props.attribute1) + " " + typeof (this.props.attribute2));
         try {
             let oneYear = this.state.perCountryData[year];
             console.log("oneYear" + JSON.stringify(oneYear));
@@ -114,7 +124,7 @@ class ReachChart2 extends React.Component {
                     y: oneYear[i][this.props.attribute2],
                 }
                 let point1 = {
-                    x: 0, 
+                    x: 0,
                     y: 0,
                 }
                 let obj = {
@@ -142,7 +152,7 @@ class ReachChart2 extends React.Component {
 
     }
 
-    renderButton(year){
+    renderButton(year) {
         return (
             <button key={year} onClick={() => this.getData(year)}>{year}</button>
         )
@@ -150,13 +160,13 @@ class ReachChart2 extends React.Component {
 
     render() {
         let years = [];
-        for(let i = 0;i<19;i++){
+        for (let i = 0; i < 19; i++) {
             years[i] = i + 2000;
         }
         const listButtons = years.map((year) => this.renderButton(year));
-        
 
-        
+
+
         return (
             <>
                 <Scatter className='Main-chart' options={this.state.options} data={this.state.data} />
