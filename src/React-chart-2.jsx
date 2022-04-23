@@ -92,7 +92,7 @@ class ReachChart2 extends React.Component {
             console.log("updated");
             this.loadData();
         }
-        
+
     }
 
     generateRandomColor() {
@@ -159,6 +159,12 @@ class ReachChart2 extends React.Component {
         )
     }
 
+    play() {
+
+        return new Promise()
+    }
+
+
     render() {
         let years = [];
         for (let i = 0; i < 19; i++) {
@@ -172,6 +178,15 @@ class ReachChart2 extends React.Component {
             <>
                 <Scatter className='Main-chart' options={this.state.options} data={this.state.data} />
                 <ul>{listButtons}</ul>
+                <button onClick={() => {
+                    let i = 2000;
+                    setInterval(()=> {
+                        if (i > 2018) return;
+                        console.log("called")
+                        this.getData(i);
+                        i++;
+                    }, 1000);
+                }}>play</button>
             </>
 
 
